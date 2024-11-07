@@ -1,3 +1,4 @@
+import { GET_USER_BY_ID, LOGIN } from "./lib/constants";
 import {
   CreateCommentResponse,
   CreateMemeResponse,
@@ -41,19 +42,7 @@ export async function login(
   username: string,
   password: string
 ): Promise<LoginResponse> {
-  return await fetch(`${BASE_URL}/authentication/login`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ username, password }),
-  })
-    .then((res) => checkStatus(res).json())
-    .then((response) => {
-      // Store the token in local storage
-      localStorage.setItem("auth-token", response.jwt);
-      return response;
-    });
+  return await LOGIN(username, password);
 }
 
 /**
@@ -66,12 +55,7 @@ export async function getUserById(
   token: string,
   id: string
 ): Promise<GetUserByIdResponse> {
-  return await fetch(`${BASE_URL}/users/${id}`, {
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  }).then((res) => checkStatus(res).json());
+  return await GET_USER_BY_ID(token, id)
 }
 
 /**

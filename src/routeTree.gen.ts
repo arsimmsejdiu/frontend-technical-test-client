@@ -73,6 +73,8 @@ declare module '@tanstack/react-router' {
   }
 }
 
+// with react we can create typed routers so we dont miss any routes and we can easily navigate to them with the appropriate data
+
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren({
