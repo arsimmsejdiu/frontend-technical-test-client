@@ -133,11 +133,11 @@ export async function createMeme(
   const formData = new FormData();
   formData.append("Picture", picture);
   formData.append("Description", description);
-  texts.forEach((text, index) => {
-    formData.append(`Texts[${index}][Content]`, text.content);
-    formData.append(`Texts[${index}][X]`, text.x.toString());
-    formData.append(`Texts[${index}][Y]`, text.y.toString());
-  });
+  
+  // Try sending texts as a JSON string instead
+  if (texts && texts.length > 0) {
+    formData.append("Texts", JSON.stringify(texts));
+  }
 
   return await fetch(`${BASE_URL}/memes`, {
     method: "POST",

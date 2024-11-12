@@ -30,6 +30,8 @@ function CreateMemePage() {
   // State to store the description
   const [description, setDescription] = useState<string>("");
 
+  console.log(texts)
+
   // Handle the drop event to upload a picture
   const handleDrop = (file: File) => {
     setPicture({
@@ -68,9 +70,16 @@ function CreateMemePage() {
       return undefined;
     }
 
+    console.log('Current picture:', picture);
+    console.log('Current texts:', texts);
+
     return {
       pictureUrl: picture.url,
-      texts,
+      texts: texts.map(text => ({
+        ...text,
+        x: Number(text.x),
+        y: Number(text.y)
+      }))
     };
   }, [picture, texts]);
 
@@ -87,13 +96,10 @@ function CreateMemePage() {
     }
 
     try {
-      await createMeme(
-        token, // Use the retrieved auth token
-        picture.file,
-        description,
-        texts
-      );
-      // Redirect to homepage after successful submission
+      await createMeme(token, picture.file, description, texts);
+      setPicture(null);
+      setTexts([]);
+      setDescription("");
       window.location.href = "/";
     } catch (error) {
       console.error("Error creating meme:", error);
