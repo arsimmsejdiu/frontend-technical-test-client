@@ -2,7 +2,7 @@ import { screen, waitFor, fireEvent } from "@testing-library/react";
 import { ChakraProvider } from "@chakra-ui/react";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { AuthenticationContext } from "../../../contexts/authentication";
-import { MemeFeedPage } from "../../../routes/_authentication/index";
+import MemeFeedPage from "../../../routes/_authentication/index";
 import { renderWithRouter } from "../../utils";
 import { createMeme } from "../../../api";
 import { vi } from 'vitest';

@@ -176,3 +176,5 @@ const MemeFeedPage: React.FC = () => {
 export const Route = createFileRoute("/_authentication/")({
   component: MemeFeedPage,
 });
+
+export default MemeFeedPage;
