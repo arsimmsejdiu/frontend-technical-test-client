@@ -39,7 +39,7 @@ export const LoginPage: React.FC = () => {
     if (token && !state.isAuthenticated) {
       authenticate(token); // Update the authentication state
     }
-  }, []);
+  }, [authenticate, state.isAuthenticated]);
 
   if (state.isAuthenticated) {
     return <Navigate to={redirect ?? "/"} />;
