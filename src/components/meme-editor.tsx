@@ -5,7 +5,8 @@ import { Image, Pencil } from "@phosphor-icons/react";
 import { MemeEditorProps, MemePictureProps } from "../types";
 import { memo, useCallback } from "react";
 
-const renderNoPicture = memo(() => (
+// Component to render when no picture is selected
+const RenderNoPicture = memo(() => (
   <Flex
     flexDir="column"
     width="full"
@@ -21,7 +22,8 @@ const renderNoPicture = memo(() => (
   </Flex>
 ));
 
-const renderMemePicture = memo(
+// Component to render the selected meme picture with an option to change it
+const RenderMemePicture = memo(
   ({
     memePicture,
     open,
@@ -60,7 +62,9 @@ const renderMemePicture = memo(
   )
 );
 
+// Main MemeEditor component
 const MemeEditor: React.FC<MemeEditorProps> = ({ onDrop, memePicture }) => {
+  // Callback function to handle file drop
   const onDropCallback = useCallback(
     (files: File[]) => {
       if (files.length === 0) {
@@ -75,8 +79,8 @@ const MemeEditor: React.FC<MemeEditorProps> = ({ onDrop, memePicture }) => {
   // Setting up the dropzone
   const { getRootProps, getInputProps, open } = useDropzone({
     onDrop: onDropCallback,
-    noClick: !!memePicture,
-    accept: { "image/png": [".png"], "image/jpg": [".jpg"] },
+    noClick: !!memePicture, // Disable click if a picture is already selected
+    accept: { "image/png": [".png"], "image/jpg": [".jpg"] }, // Accept only PNG and JPG files
   });
 
   return (
@@ -91,16 +95,19 @@ const MemeEditor: React.FC<MemeEditorProps> = ({ onDrop, memePicture }) => {
         px={1}
       >
         <input {...getInputProps()} />
-        {/* // Conditional rendering based on whether a meme picture is available
-            // If memePicture is available, render the meme picture with an option to change it
-            // Otherwise, render a placeholder indicating no picture is selected 
+        {/* Conditional rendering based on whether a meme picture is available
+            If memePicture is available, render the meme picture with an option to change it
+            Otherwise, render a placeholder indicating no picture is selected 
         */}
-        {memePicture
-          ? renderMemePicture({ memePicture, open })
-          : renderNoPicture({})}
+        {memePicture ? (
+          <RenderMemePicture memePicture={memePicture} open={open} />
+        ) : (
+          <RenderNoPicture />
+        )}
       </Box>
     </AspectRatio>
   );
 };
 
+// Exporting the MemeEditor component wrapped in React.memo to prevent unnecessary re-renders
 export default memo(MemeEditor);
