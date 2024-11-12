@@ -52,6 +52,7 @@ const MemeFeedPage: React.FC = () => {
           return { ...meme, author, comments: commentsWithAuthor };
         })
       );
+
       return memesWithDetails;
     },
   });

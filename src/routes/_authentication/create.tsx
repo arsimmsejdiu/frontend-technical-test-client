@@ -23,16 +23,10 @@ export const Route = createFileRoute("/_authentication/create")({
 });
 
 function CreateMemePage() {
-  // State to store the uploaded picture
   const [picture, setPicture] = useState<Picture | null>(null);
-  // State to store the captions
   const [texts, setTexts] = useState<MemePictureProps["texts"]>([]);
-  // State to store the description
   const [description, setDescription] = useState<string>("");
 
-  console.log(texts)
-
-  // Handle the drop event to upload a picture
   const handleDrop = (file: File) => {
     setPicture({
       url: URL.createObjectURL(file),
@@ -40,7 +34,6 @@ function CreateMemePage() {
     });
   };
 
-  // Handle the event to add a new caption
   const handleAddCaptionButtonClick = () => {
     setTexts([
       ...texts,
@@ -52,38 +45,27 @@ function CreateMemePage() {
     ]);
   };
 
-  // Handle the event to delete a caption
   const handleDeleteCaptionButtonClick = (index: number) => {
     setTexts(texts.filter((_, i) => i !== index));
   };
 
-  // Handle the event to change the content of a caption
   const handleCaptionChange = (index: number, content: string) => {
     const newTexts = [...texts];
     newTexts[index].content = content;
     setTexts(newTexts);
   };
 
-  // Memoize the meme picture object to avoid unnecessary re-renders
   const memePicture = useMemo(() => {
     if (!picture) {
       return undefined;
     }
 
-    console.log('Current picture:', picture);
-    console.log('Current texts:', texts);
-
     return {
       pictureUrl: picture.url,
-      texts: texts.map(text => ({
-        ...text,
-        x: Number(text.x),
-        y: Number(text.y)
-      }))
+      texts,
     };
   }, [picture, texts]);
 
-  // Handle the form submission to create a meme
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!picture) return;
@@ -97,6 +79,7 @@ function CreateMemePage() {
 
     try {
       await createMeme(token, picture.file, description, texts);
+      alert("Meme created successfully!");
       setPicture(null);
       setTexts([]);
       setDescription("");

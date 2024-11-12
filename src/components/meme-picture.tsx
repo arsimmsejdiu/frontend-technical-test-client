@@ -23,7 +23,14 @@ const MemeText = memo(({ text, fontSize, dataTestId, index }: {
     fontWeight="bold"
     userSelect="none"
     textTransform="uppercase"
-    style={{ WebkitTextStroke: "1px black" }}
+    textAlign="center"
+    style={{
+      WebkitTextStroke: "2px black",
+      textShadow: `-2px -2px 0 #000, 
+                   2px -2px 0 #000,
+                   -2px 2px 0 #000,
+                   2px 2px 0 #000`
+    }}
     data-testid={`${dataTestId}-text-${index}`}
   >
     {text.content}

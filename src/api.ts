@@ -68,12 +68,14 @@ export async function getMemes(
   token: string,
   page: number
 ): Promise<GetMemesResponse> {
-  return await fetch(`${BASE_URL}/memes?page=${page}`, {
+  const response = await fetch(`${BASE_URL}/memes?page=${page}`, {
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-  }).then((res) => checkStatus(res).json());
+  });
+  const data = await checkStatus(response).json();
+  return data;
 }
 
 /**
@@ -123,20 +125,25 @@ export async function createMemeComment(
  * @param description
  * @param texts
  * @returns
+ * The texts parameter now has a default value of an empty array ([]). This ensures that even if no texts are provided, 
+ * the FormData will still include an empty Texts field, preventing issues with missing data.
  */
 export async function createMeme(
   token: string,
   picture: File,
   description: string,
-  texts: { content: string; x: number; y: number }[]
+  texts: { content: string; x: number; y: number }[] = []
 ): Promise<CreateMemeResponse> {
   const formData = new FormData();
   formData.append("Picture", picture);
   formData.append("Description", description);
   
-  // Try sending texts as a JSON string instead
-  if (texts && texts.length > 0) {
-    formData.append("Texts", JSON.stringify(texts));
+  // Always send texts as a JSON string
+  formData.append("Texts", JSON.stringify(texts));
+
+  // Log the FormData object for debugging
+  for (const pair of formData.entries()) {
+    console.log(pair[0] + ": " + pair[1]);
   }
 
   return await fetch(`${BASE_URL}/memes`, {
