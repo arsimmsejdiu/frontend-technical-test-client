@@ -124,24 +124,25 @@ export async function createMemeComment(
  * @param picture
  * @param description
  * @param texts
+ * @param authorId
  * @returns
- * The texts parameter now has a default value of an empty array ([]). This ensures that even if no texts are provided, 
- * the FormData will still include an empty Texts field, preventing issues with missing data.
  */
 export async function createMeme(
   token: string,
   picture: File,
   description: string,
-  texts: { content: string; x: number; y: number }[] = []
+  texts: { content: string; x: number; y: number }[] = [],
+  authorId: string
 ): Promise<CreateMemeResponse> {
   const formData = new FormData();
   formData.append("Picture", picture);
   formData.append("Description", description);
   
-  // Always send texts as a JSON string
+  formData.append("authorId", authorId);
+  formData.append("commentsCount", "0");
+  formData.append("createdAt", new Date().toISOString());
   formData.append("Texts", JSON.stringify(texts));
 
-  // Log the FormData object for debugging
   for (const pair of formData.entries()) {
     console.log(pair[0] + ": " + pair[1]);
   }

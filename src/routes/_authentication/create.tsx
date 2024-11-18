@@ -78,7 +78,7 @@ function CreateMemePage() {
     }
 
     try {
-      await createMeme(token, picture.file, description, texts);
+      await createMeme(token, picture.file, description, texts, "hello");
       setPicture(null);
       setTexts([]);
       setDescription("");
