@@ -179,7 +179,7 @@ const MemeFeedPage: React.FC = () => {
       <Flex p={5} justifyContent="flex-start" mt={4} gap={4}>
         <Button
           onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
-          disabled={page === 1}
+          isDisabled={page === 1}
           size="md"
           width={"full"}
         >
@@ -187,7 +187,7 @@ const MemeFeedPage: React.FC = () => {
         </Button>
         <Button
           onClick={() => setPage((prev) => prev + 1)}
-          disabled={isFetching}
+          isDisabled={isFetching}
           size="md"
           width={"full"}
         >
