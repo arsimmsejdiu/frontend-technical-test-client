@@ -16,8 +16,10 @@ import { useEffect } from "react";
 import { Inputs, SearchParams } from "../types";
 import { renderError } from "../lib/utils";
 import { useAuthentication } from "../contexts/authHooks";
+import useAuthCheck from "../hook/useAuthCheck";
 
 export const LoginPage: React.FC = () => {
+  useAuthCheck();
   const { redirect } = Route.useSearch();
   const { state, authenticate } = useAuthentication();
   const { mutate, isPending, error } = useMutation({
