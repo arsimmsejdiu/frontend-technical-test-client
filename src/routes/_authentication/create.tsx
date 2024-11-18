@@ -79,7 +79,6 @@ function CreateMemePage() {
 
     try {
       await createMeme(token, picture.file, description, texts);
-      alert("Meme created successfully!");
       setPicture(null);
       setTexts([]);
       setDescription("");
@@ -145,7 +144,7 @@ function CreateMemePage() {
               size="sm"
               width="full"
               onClick={handleAddCaptionButtonClick}
-              isDisabled={memePicture === undefined}
+              isDisabled={memePicture === undefined && description === ""}
             >
               Add a caption
             </Button>

@@ -10,10 +10,10 @@ import {
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { CaretDown, CaretUp, SignOut } from "@phosphor-icons/react";
-import { useAuthentication } from "../contexts/authentication";
 import { getUserById } from "../api";
 import React, { useCallback } from "react";
 import Loader from "./loader";
+import { useAuthentication } from "../contexts/authHooks";
 
 // Memoized component to prevent unnecessary re-renders
 const UserDropdown: React.FC = React.memo(() => {

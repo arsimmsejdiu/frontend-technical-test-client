@@ -12,10 +12,10 @@ import { useMutation } from "@tanstack/react-query";
 import { createFileRoute, Navigate } from "@tanstack/react-router";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { login } from "../api";
-import { useAuthentication } from "../contexts/authentication";
 import { useEffect } from "react";
 import { Inputs, SearchParams } from "../types";
 import { renderError } from "../lib/utils";
+import { useAuthentication } from "../contexts/authHooks";
 
 export const LoginPage: React.FC = () => {
   const { redirect } = Route.useSearch();

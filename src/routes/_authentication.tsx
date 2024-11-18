@@ -4,10 +4,10 @@ import {
   Outlet,
   useLocation,
 } from "@tanstack/react-router";
-import { useAuthentication } from "../contexts/authentication";
+import { useAuthentication } from "../contexts/authHooks";
 
 export const Route = createFileRoute("/_authentication")({
-  component: () => {
+  component: function AuthComponent() {
     const { state } = useAuthentication();
     const { pathname } = useLocation();
 

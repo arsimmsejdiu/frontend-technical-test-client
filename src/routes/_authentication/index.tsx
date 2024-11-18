@@ -16,12 +16,12 @@ import {
   getMemes,
   getUserById,
 } from "../../api";
-import { useAuthToken } from "../../contexts/authentication";
 import Loader from "../../components/loader";
 import { MemePicture } from "../../components/meme-picture";
 import { useState, useCallback, useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router"; // Import createFileRoute
+import { useAuthToken } from "../../contexts/authHooks";
 
 const MemeFeedPage: React.FC = () => {
   const token = useAuthToken();

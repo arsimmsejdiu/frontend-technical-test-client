@@ -11,15 +11,13 @@ import {
   Link,
   Outlet,
 } from "@tanstack/react-router";
-import {
-  useAuthentication,
-} from "../contexts/authentication";
 import UserDropdown from "../components/user-dropdown";
 import { Plus } from "@phosphor-icons/react";
 import { RouterContext } from "../types";
+import { useAuthentication } from "../contexts/authHooks";
 
 export const Route = createRootRouteWithContext<RouterContext>()({
-  component: () => {
+  component: function ComponentName() {
     const { state } = useAuthentication();
     return (
       <Flex width="full" height="full" direction="column">
