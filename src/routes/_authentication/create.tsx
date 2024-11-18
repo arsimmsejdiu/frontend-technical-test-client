@@ -144,7 +144,7 @@ function CreateMemePage() {
               size="sm"
               width="full"
               onClick={handleAddCaptionButtonClick}
-              isDisabled={memePicture === undefined && description === ""}
+              isDisabled={memePicture === undefined}
             >
               Add a caption
             </Button>
@@ -167,7 +167,7 @@ function CreateMemePage() {
             width="full"
             color="white"
             type="submit"
-            isDisabled={memePicture === undefined}
+            isDisabled={memePicture === undefined || description === ""}
           >
             Submit
           </Button>

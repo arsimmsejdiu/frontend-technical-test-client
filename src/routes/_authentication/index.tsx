@@ -143,7 +143,7 @@ const MemeFeedPage: React.FC = () => {
           </Box>
         ))}
       </SimpleGrid>
-      <Flex justifyContent="space-between" mt={4}>
+      <Flex p={5} justifyContent="space-between" mt={4}>
         <Button onClick={() => setPage((prev) => Math.max(prev - 1, 1))} disabled={page === 1}>
           Previous
         </Button>

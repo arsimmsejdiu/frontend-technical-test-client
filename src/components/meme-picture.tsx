@@ -19,15 +19,15 @@ const MemeText = memo(
     dataTestId: string;
     index: number;
   }) => {
-    console.log("Text Object:", text); // Log the text object
-    console.log("Position:", text.x, text.y); // Log the x and y positions
-    console.log("Font Size:", fontSize); // Log the font size
+
+    const {content, x, y} = text;
+
 
     return (
       <Text
         position="absolute"
-        left={`${text.x}px`}
-        top={`${text.y}px`}
+        left={`${x}px`}
+        top={`${y}px`}
         fontSize={`${fontSize}px`}
         color="white"
         fontFamily="Impact"
@@ -44,7 +44,7 @@ const MemeText = memo(
         }}
         data-testid={`${dataTestId}-text-${index}`}
       >
-        {text.content}
+        {content}
       </Text>
     );
   }
