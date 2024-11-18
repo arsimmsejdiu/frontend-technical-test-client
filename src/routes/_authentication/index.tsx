@@ -23,8 +23,10 @@ import { useState, useCallback, useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router"; // Import createFileRoute
 import { useAuthToken } from "../../contexts/authHooks";
+import useAuthCheck from "../../hook/useAuthCheck";
 
 const MemeFeedPage: React.FC = () => {
+  useAuthCheck();
   const token = useAuthToken();
   const queryClient = useQueryClient();
   const [page, setPage] = useState(1);
