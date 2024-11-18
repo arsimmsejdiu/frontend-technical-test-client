@@ -29,6 +29,7 @@ const MemeFeedPage: React.FC = () => {
   const queryClient = useQueryClient();
   const [page, setPage] = useState(1);
   const [commentContent, setCommentContent] = useState<{ [key: string]: string }>({});
+  const [expandedComments, setExpandedComments] = useState<{ [key: string]: boolean }>({});
 
   const { data: memes, isLoading, isFetching } = useQuery({
     queryKey: ["memes", page],
@@ -70,6 +71,10 @@ const MemeFeedPage: React.FC = () => {
     setCommentContent((prev) => ({ ...prev, [memeId]: value }));
   }, []);
 
+  const handleToggleComments = useCallback((memeId: string) => {
+    setExpandedComments((prev) => ({ ...prev, [memeId]: !prev[memeId] }));
+  }, []);
+
   const memoizedMemes = useMemo(() => memes, [memes]);
 
   if (isLoading) {
@@ -87,7 +92,7 @@ const MemeFeedPage: React.FC = () => {
               Posted by {meme.author.username} {format(meme.createdAt)}
             </Text>
             <VStack mt={4} spacing={2} align="stretch">
-              {meme.comments.map((comment) => (
+              {meme.comments.slice(0, expandedComments[meme.id] ? meme.comments.length : 3).map((comment) => (
                 <Flex key={comment.id}>
                   <Avatar
                     borderWidth="1px"
@@ -112,6 +117,11 @@ const MemeFeedPage: React.FC = () => {
                   </Box>
                 </Flex>
               ))}
+              {meme.comments.length > 3 && (
+                <Button size="sm" onClick={() => handleToggleComments(meme.id)}>
+                  {expandedComments[meme.id] ? "Show less" : "Show more"}
+                </Button>
+              )}
             </VStack>
             <FormControl mt={4}>
               <FormLabel>Add a comment</FormLabel>
