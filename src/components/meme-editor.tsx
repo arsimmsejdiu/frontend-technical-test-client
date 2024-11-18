@@ -1,26 +1,31 @@
 import { useDropzone } from "react-dropzone";
 import { MemePicture } from "./meme-picture";
-import { AspectRatio, Box, Button, Flex, Icon, Text } from "@chakra-ui/react";
+import { AspectRatio, Box, Button, Icon, Text } from "@chakra-ui/react";
 import { Image, Pencil } from "@phosphor-icons/react";
 import { MemeEditorProps, MemePictureProps } from "../types";
 import { memo, useCallback } from "react";
 
 // Component to render when no picture is selected
-const RenderNoPicture = memo(() => (
-  <Flex
-    flexDir="column"
-    width="full"
-    height="full"
+// Placeholder component for when no picture is selected
+const RenderNoPicture = () => (
+  <Box
+    display="flex"
     alignItems="center"
     justifyContent="center"
+    height="full"
+    color="gray.500"
+    textAlign="center"
+    p={4}
   >
-    <Icon as={Image} color="black" boxSize={16} />
-    <Text>Select a picture</Text>
-    <Text color="gray.400" fontSize="sm">
-      or drop it in this area
-    </Text>
-  </Flex>
-));
+    <Box>
+      <Icon as={Image} boxSize={12} mb={2} />
+      <Text fontSize="lg">Drag & drop an image here, or click to select one</Text>
+      <Text fontSize="sm" color="gray.400">
+        (Only *.png and *.jpg images will be accepted)
+      </Text>
+    </Box>
+  </Box>
+);
 
 // Component to render the selected meme picture with an option to change it
 const RenderMemePicture = memo(
@@ -89,10 +94,15 @@ const MemeEditor: React.FC<MemeEditorProps> = ({ onDrop, memePicture }) => {
         {...getRootProps()}
         width="full"
         position="relative"
-        border={!memePicture ? "1px dashed" : undefined}
+        border={!memePicture ? "2px dashed" : undefined}
         borderColor="gray.300"
-        borderRadius={9}
+        borderRadius="md"
+        cursor="pointer"
         px={1}
+        _hover={{
+          borderColor: "gray.500",
+        }}
+        transition="border-color 0.2s"
       >
         <input {...getInputProps()} />
         {/* Conditional rendering based on whether a meme picture is available
