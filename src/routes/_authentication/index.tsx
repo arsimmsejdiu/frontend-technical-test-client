@@ -30,10 +30,18 @@ const MemeFeedPage: React.FC = () => {
   const token = useAuthToken();
   const queryClient = useQueryClient();
   const [page, setPage] = useState(1);
-  const [commentContent, setCommentContent] = useState<{ [key: string]: string }>({});
-  const [expandedComments, setExpandedComments] = useState<{ [key: string]: boolean }>({});
+  const [commentContent, setCommentContent] = useState<{
+    [key: string]: string;
+  }>({});
+  const [expandedComments, setExpandedComments] = useState<{
+    [key: string]: boolean;
+  }>({});
 
-  const { data: memes, isLoading, isFetching } = useQuery({
+  const {
+    data: memes,
+    isLoading,
+    isFetching,
+  } = useQuery({
     queryKey: ["memes", page],
     queryFn: async () => {
       const memes = await getMemes(token, page);
@@ -55,7 +63,13 @@ const MemeFeedPage: React.FC = () => {
   });
 
   const addCommentMutation = useMutation({
-    mutationFn: async ({ memeId, content }: { memeId: string; content: string }) => {
+    mutationFn: async ({
+      memeId,
+      content,
+    }: {
+      memeId: string;
+      content: string;
+    }) => {
       await createMemeComment(token, memeId, content);
     },
     onSuccess: (_, { memeId }) => {
@@ -65,9 +79,12 @@ const MemeFeedPage: React.FC = () => {
     },
   });
 
-  const handleAddComment = useCallback((memeId: string, content: string) => {
-    addCommentMutation.mutate({ memeId, content });
-  }, [addCommentMutation]);
+  const handleAddComment = useCallback(
+    (memeId: string, content: string) => {
+      addCommentMutation.mutate({ memeId, content });
+    },
+    [addCommentMutation]
+  );
 
   const handleCommentChange = useCallback((memeId: string, value: string) => {
     setCommentContent((prev) => ({ ...prev, [memeId]: value }));
@@ -94,31 +111,43 @@ const MemeFeedPage: React.FC = () => {
               Posted by {meme.author.username} {format(meme.createdAt)}
             </Text>
             <VStack mt={4} spacing={2} align="stretch">
-              {meme.comments.slice(0, expandedComments[meme.id] ? meme.comments.length : 3).map((comment) => (
-                <Flex key={comment.id}>
-                  <Avatar
-                    borderWidth="1px"
-                    borderColor="gray.300"
-                    size="sm"
-                    name={comment.author.username}
-                    src={comment.author.pictureUrl}
-                    mr={2}
-                  />
-                  <Box p={2} borderRadius={8} bg="gray.50" flexGrow={1}>
-                    <Flex justifyContent="space-between" alignItems="center">
-                      <Text data-testid={`meme-comment-author-${meme.id}-${comment.id}`}>
-                        {comment.author.username}
+              {meme.comments
+                .slice(0, expandedComments[meme.id] ? meme.comments.length : 3)
+                .map((comment) => (
+                  <Flex key={comment.id}>
+                    <Avatar
+                      borderWidth="1px"
+                      borderColor="gray.300"
+                      size="sm"
+                      name={comment.author.username}
+                      src={comment.author.pictureUrl}
+                      mr={2}
+                    />
+                    <Box p={2} borderRadius={8} bg="gray.50" flexGrow={1}>
+                      <Flex justifyContent="space-between" alignItems="center">
+                        <Text
+                          data-testid={`meme-comment-author-${meme.id}-${comment.id}`}
+                        >
+                          {comment.author.username}
+                        </Text>
+                        <Text
+                          fontStyle="italic"
+                          color="gray.500"
+                          fontSize="small"
+                        >
+                          {format(comment.createdAt)}
+                        </Text>
+                      </Flex>
+                      <Text
+                        color="gray.500"
+                        whiteSpace="pre-line"
+                        data-testid={`meme-comment-content-${meme.id}-${comment.id}`}
+                      >
+                        {comment.content}
                       </Text>
-                      <Text fontStyle="italic" color="gray.500" fontSize="small">
-                        {format(comment.createdAt)}
-                      </Text>
-                    </Flex>
-                    <Text color="gray.500" whiteSpace="pre-line" data-testid={`meme-comment-content-${meme.id}-${comment.id}`}>
-                      {comment.content}
-                    </Text>
-                  </Box>
-                </Flex>
-              ))}
+                    </Box>
+                  </Flex>
+                ))}
               {meme.comments.length > 3 && (
                 <Button size="sm" onClick={() => handleToggleComments(meme.id)}>
                   {expandedComments[meme.id] ? "Show less" : "Show more"}
@@ -129,7 +158,9 @@ const MemeFeedPage: React.FC = () => {
               <FormLabel>Add a comment</FormLabel>
               <Input
                 placeholder="Type your comment here..."
-                onChange={(event) => handleCommentChange(meme.id, event.target.value)}
+                onChange={(event) =>
+                  handleCommentChange(meme.id, event.target.value)
+                }
                 value={commentContent[meme.id] || ""}
                 onKeyDown={(e) => {
                   if (e.key === "Enter" && !e.shiftKey) {
@@ -146,10 +177,20 @@ const MemeFeedPage: React.FC = () => {
         ))}
       </SimpleGrid>
       <Flex p={5} justifyContent="flex-start" mt={4} gap={4}>
-        <Button onClick={() => setPage((prev) => Math.max(prev - 1, 1))} disabled={page === 1}>
+        <Button
+          onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
+          disabled={page === 1}
+          size="md"
+          width={"full"}
+        >
           Previous
         </Button>
-        <Button onClick={() => setPage((prev) => prev + 1)} disabled={isFetching}>
+        <Button
+          onClick={() => setPage((prev) => prev + 1)}
+          disabled={isFetching}
+          size="md"
+          width={"full"}
+        >
           Next
         </Button>
       </Flex>
