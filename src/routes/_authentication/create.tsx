@@ -178,7 +178,6 @@ function CreateMemePage() {
             colorScheme="cyan"
             width="full"
             color={"white"}
-            as={Link}
             isDisabled={memePicture === undefined || description === ""}
           >
             Create Meme
