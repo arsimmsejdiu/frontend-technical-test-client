@@ -29,7 +29,8 @@ const MemeFeedPage: React.FC = () => {
   useAuthCheck();
   const token = useAuthToken();
   const queryClient = useQueryClient();
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState<number>(1);
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [commentContent, setCommentContent] = useState<{
     [key: string]: string;
   }>({});
@@ -94,7 +95,17 @@ const MemeFeedPage: React.FC = () => {
     setExpandedComments((prev) => ({ ...prev, [memeId]: !prev[memeId] }));
   }, []);
 
-  const memoizedMemes = useMemo(() => memes, [memes]);
+  // const memoizedMemes = useMemo(() => memes, [memes]);
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const filteredMemes = useMemo(() => {
+    if (!memes) return [];
+    return memes.filter((meme) =>
+      meme.description.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [memes, searchQuery]);
 
   if (isLoading) {
     return <Loader />;
@@ -102,8 +113,16 @@ const MemeFeedPage: React.FC = () => {
 
   return (
     <VStack spacing={4} p={4} align="stretch" width="full">
+      <FormControl>
+        <FormLabel>Search by description</FormLabel>
+        <Input
+          placeholder="Search..."
+          value={searchQuery}
+          onChange={handleSearchChange}
+        />
+      </FormControl>
       <SimpleGrid columns={[1, 2, 3]} spacing={4}>
-        {memoizedMemes?.map((meme) => (
+        {filteredMemes?.map((meme) => (
           <Box key={meme.id} p={4} borderWidth={1} borderRadius="md">
             <MemePicture pictureUrl={meme.pictureUrl} texts={meme.texts} />
             <Text mt={2}>{meme.description}</Text>
