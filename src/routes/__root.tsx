@@ -29,7 +29,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
           boxShadow="md"
         >
           {/* Title */}
-          <Heading size="lg" color="white">
+          <Heading cursor="pointer" size="lg" color="white" onClick={() => window.location.href = "/"}>
             MemeFactory
           </Heading>
           {state.isAuthenticated && (
