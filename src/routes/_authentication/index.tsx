@@ -84,7 +84,7 @@ const MemeFeedPage: React.FC = () => {
   }
 
   return (
-    <VStack spacing={4} p={4} align="stretch">
+    <VStack spacing={4} p={4} align="stretch" width="full">
       <SimpleGrid columns={[1, 2, 3]} spacing={4}>
         {memoizedMemes?.map((meme) => (
           <Box key={meme.id} p={4} borderWidth={1} borderRadius="md">

@@ -19,15 +19,13 @@ const MemeText = memo(
     dataTestId: string;
     index: number;
   }) => {
-
-    const {content, x, y} = text;
-
+    console.log("Content -> ", text.content);
 
     return (
       <Text
         position="absolute"
-        left={`${x}px`}
-        top={`${y}px`}
+        left={`${text.x}px`}
+        top={`${text.y}px`}
         fontSize={`${fontSize}px`}
         color="white"
         fontFamily="Impact"
@@ -38,13 +36,13 @@ const MemeText = memo(
         style={{
           WebkitTextStroke: "2px black",
           textShadow: `-2px -2px 0 #000, 
-                     2px -2px 0 #000,
-                     -2px 2px 0 #000,
-                     2px 2px 0 #000`,
+                 2px -2px 0 #000,
+                 -2px 2px 0 #000,
+                 2px 2px 0 #000`,
         }}
         data-testid={`${dataTestId}-text-${index}`}
       >
-        {content}
+        {text.content}
       </Text>
     );
   }
