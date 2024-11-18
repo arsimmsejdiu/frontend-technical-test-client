@@ -90,26 +90,39 @@ function CreateMemePage() {
 
   return (
     <Flex width="full" height="full" as="form" onSubmit={handleSubmit}>
-      <Box flexGrow={1} height="full" p={4} overflowY="auto">
-        <VStack spacing={5} align="stretch">
-          <Box>
-            <Heading as="h2" size="md" mb={2}>
-              Upload your picture
-            </Heading>
+      <Flex
+        flexGrow={1}
+        height="full"
+        p={4}
+        overflowY="auto"
+        direction="row"
+        gap={4}
+      >
+        <Box flex="1" height="full" p={4} display="flex" flexDirection="column">
+          <Heading as="h2" size="md" mb={2}>
+            Upload your picture
+          </Heading>
+          <Box
+            flex="1"
+            display="flex"
+            flexDirection="column"
+            height={"auto"}
+          >
             <MemeEditor onDrop={handleDrop} memePicture={memePicture} />
           </Box>
-          <Box>
-            <Heading as="h2" size="md" mb={2}>
-              Describe your meme
-            </Heading>
-            <Textarea
-              placeholder="Type your description here..."
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-            />
-          </Box>
-        </VStack>
-      </Box>
+        </Box>
+        <Box flex="1" height="auto" p={4} mb={4}>
+          <Heading as="h2" size="md" mb={2}>
+            Describe your meme
+          </Heading>
+          <Textarea
+            placeholder="Type your description here..."
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            height="full"
+          />
+        </Box>
+      </Flex>
       <Flex
         flexDir="column"
         width="30%"
@@ -141,7 +154,7 @@ function CreateMemePage() {
               colorScheme="cyan"
               leftIcon={<Icon as={Plus} />}
               variant="ghost"
-              size="sm"
+              size="md"
               width="full"
               onClick={handleAddCaptionButtonClick}
               isDisabled={memePicture === undefined}
@@ -156,20 +169,19 @@ function CreateMemePage() {
             to="/"
             colorScheme="cyan"
             variant="outline"
-            size="sm"
             width="full"
           >
             Cancel
           </Button>
           <Button
-            colorScheme="cyan"
-            size="sm"
-            width="full"
-            color="white"
             type="submit"
+            colorScheme="cyan"
+            width="full"
+            color={"white"}
+            as={Link}
             isDisabled={memePicture === undefined || description === ""}
           >
-            Submit
+            Create Meme
           </Button>
         </HStack>
       </Flex>
